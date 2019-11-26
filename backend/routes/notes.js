@@ -37,12 +37,10 @@ router.route('/update/:id').post((req, res) => {
         note.username = req.body.username, 
         note.title = req.body.title,
         note.textbody = req.body.textbody
-
         note.save()
         .then(() => res.json('Note updated'))
         .catch(err => res.status(400).json('Error' + err))
     })
-
 })
 
 // Delete

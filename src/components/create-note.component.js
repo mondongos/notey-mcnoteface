@@ -1,10 +1,11 @@
 import React from 'react'
+import axios from 'axios'
 
 export default class CreateNote extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            username: '',
+            username: 'halsey',
             title: '', 
             textbody: '',
             users: []
@@ -18,11 +19,6 @@ export default class CreateNote extends React.Component {
         })
     }
 
-    postNote = async (note) => {
-        let rawResponse = await fetch('http://localhost:5000/notes/add', note)
-        return rawResponse
-    }
-
     onSubmit = (e) => {
         e.preventDefault()
         const note = {
@@ -30,7 +26,9 @@ export default class CreateNote extends React.Component {
             title: this.state.title,
             textbody: this.state.textbody
         }
-        this.postNote(note)
+        axios.post('http://localhost:5000/notes/add', note)
+        .then(res => console.log(res.json()))
+        .catch(err => console.log(err))
         console.log(note)
         window.location = '/'
     }
@@ -48,7 +46,8 @@ export default class CreateNote extends React.Component {
                             className="form-control"
                             placeholder="Note title"
                             value={this.state.title}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange}
+                            />
                     </div>
                     <div className="form-group"> 
                         <input  
@@ -58,13 +57,15 @@ export default class CreateNote extends React.Component {
                             className="form-control"
                             placeholder="Type your note here"
                             value={this.state.textbody}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange}
+                            />
                     </div>
                     <div className="form-group">
                         <input 
                             type="submit" 
                             value="Create Note" 
-                            className="btn btn-primary"/>
+                            className="btn btn-primary"
+                            />
                     </div>
                 </form>
             </div>
